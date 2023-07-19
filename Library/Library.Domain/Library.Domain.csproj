@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Book\Aggregate\" />
+    <Folder Include="Book\Entities\" />
+    <Folder Include="Book\Enums\" />
+    <Folder Include="Book\Value Object\" />
+  </ItemGroup>
+
 </Project>
