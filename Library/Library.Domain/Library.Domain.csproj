@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Book\Aggregate\" />
-    <Folder Include="Book\Entities\" />
-    <Folder Include="Book\Value Object\" />
+    <Folder Include="PatrionPanel\" />
   </ItemGroup>
 
 </Project>
