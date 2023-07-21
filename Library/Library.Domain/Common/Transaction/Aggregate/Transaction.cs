@@ -6,18 +6,22 @@ using Value_Object;
 public record Transaction 
 {
     public Guid Id { get; init; }
+    public Guid BookId { get; init; }
+    public Guid PatrionId { get; init; }
     public BorrowSpan? Span { get; init; } = null; 
-    public TransactionType Type { get; init; }
-    public TransactionStatus Status { get; init; }
+    public Action Type { get; init; }
+    public State Status { get; init; }
     
     private Transaction(){}
-    public Transaction(TransactionType type,TransactionStatus status)
+    public Transaction(Action type,State status,Guid bookId,Guid patrionId)
     {
         Id = Guid.NewGuid();
+        BookId = bookId;
+        PatrionId = patrionId;
         Type = type;
         Status = status;
 
-        if (type is TransactionType.Borrow && status is TransactionStatus.Success)
+        if (type is Action.Borrow && status is State.Success)
         {
             Span = new BorrowSpan
             {

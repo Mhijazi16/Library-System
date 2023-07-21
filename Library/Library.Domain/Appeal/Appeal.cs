@@ -1,19 +1,21 @@
+using Action = Library.Domain.Common.Transaction.Value_Object.Action;
+
 namespace Library.Domain.LibrarianPanel.Value_Object;
 using Book.Aggregate;
 using Patrion.Aggregate;
 
 public record Appeal
 {
-    public Guid Id { get; init; }
-    public Patrion Patrion { get; init; }
-    public Book Book { get; init; }
+    public Guid AppealId { get; init; }
+    public Guid PatrionId { get; init; }
+    public Guid BookId { get; init; }
 
     private Appeal(){}
 
-    public Appeal(Patrion patrion, Book book)
+    public Appeal(Guid patrion, Guid book)
     {
-        Id = Guid.NewGuid();
-        Patrion = patrion;
-        Book = book;
+        AppealId = Guid.NewGuid();
+        PatrionId = patrion;
+        BookId = book;
     }
 }
