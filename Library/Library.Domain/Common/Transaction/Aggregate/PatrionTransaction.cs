@@ -7,7 +7,7 @@ using Aggregate;
 public record PatrionTransaction : Transaction
 {
     public Book Book{ get; init; } 
-    public PatrionTransaction(TransactionType type, Book  book) : base(type)
+    public PatrionTransaction(TransactionType type,TransactionStatus status, Book  book) : base(type,status)
     {
         this.Book  = book;
     }
