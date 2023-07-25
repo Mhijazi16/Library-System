@@ -1,5 +1,4 @@
 namespace Library.Domain.Patrion.Value_Object;
-using Book.Enums;
 
 
 public record BorrowedBook
@@ -7,8 +6,8 @@ public record BorrowedBook
     public Guid Id { get;  init; }
     public string Title { get; init; } 
     public string Description { get; init; }
-    public Genre Genre { get; init; }
-    public Status Status { get;  init; } 
+    public string Genre { get; init; }
+    public string Status { get;  init; } 
      
     private BorrowedBook(){}
 
@@ -17,8 +16,8 @@ public record BorrowedBook
         Id = book.Id;
         Title = book.Title;
         Description = book.Description;
-        Genre = book.Genre;
-        Status = book.Status;
+        Genre = book.Genre.ToString();
+        Status = book.Status.ToString();
     }
     
 }

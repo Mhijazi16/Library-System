@@ -6,17 +6,16 @@ using Value_Object;
 public record Transaction 
 {
     public Guid Id { get; init; }
-    public Guid BookId { get; init; }
     public Guid PatrionId { get; init; }
+    public Guid BookId { get; init; }
     public BorrowSpan? Span { get; init; } = null; 
     public Action Type { get; init; }
     public State Status { get; init; }
     
     private Transaction(){}
-    public Transaction(Action type,State status,Guid bookId,Guid patrionId)
+    public Transaction(Action type,State status,Guid patrionId)
     {
         Id = Guid.NewGuid();
-        BookId = bookId;
         PatrionId = patrionId;
         Type = type;
         Status = status;

@@ -8,6 +8,7 @@ using Common.Transaction.Aggregate;
 
 public class Patrion
 {
+    public Guid Id { get; private set; }
     public string FirstName{ get; private set; }
     public string LastName{ get; private set; }
     public string Email { get; private set; }
@@ -23,6 +24,7 @@ public class Patrion
 
     public Patrion(string first,string last, string email)
     {
+        Id = Guid.NewGuid();
         FirstName = first;
         LastName = last;
         Email = email;
