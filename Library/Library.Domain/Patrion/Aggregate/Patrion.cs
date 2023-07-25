@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using System.Transactions;
+using Library.Domain.Patrion.Value_Object;
 
 namespace Library.Domain.Patrion.Aggregate;
 using Book.Aggregate;
@@ -10,9 +11,14 @@ public class Patrion
     public string FirstName{ get; private set; }
     public string LastName{ get; private set; }
     public string Email { get; private set; }
-    public HashSet<Book>? Books { get; private set; } = null;
-    public HashSet<Transaction>? TransactionHistory { get; private set; } = null;
+    private HashSet<BorrowedBook>? _books = null;
+    private HashSet<Transaction>? _transactionHistory = null;
     
+    //Navigation Properties & Foreign Keys
+    public IReadOnlyList<BorrowedBook>? BookSet => _books.ToList();
+    public IReadOnlyList<Transaction>? PatrionTransactions => _transactionHistory.ToList();
+
+
     private Patrion(){}
 
     public Patrion(string first,string last, string email)
@@ -24,20 +30,12 @@ public class Patrion
 
     public void AddBook(Book book)
     {
-        if (Books is null)
-        {
-            Books = new HashSet<Book>();
-        }
-
-        Books.Add(book);
+        _books ??= new HashSet<BorrowedBook>();
+        _books.Add(new BorrowedBook(book));
     }
     public void AddTransaction(Transaction transaction)
-     {
-         if (TransactionHistory is null)
-         {
-             TransactionHistory = new HashSet<Transaction>();
-         }
-
-         TransactionHistory.Add(transaction);
-     }   
+    {
+        _transactionHistory ??= new HashSet<Transaction>();
+        _transactionHistory.Add(transaction);
+    }   
 }
