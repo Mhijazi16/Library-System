@@ -9,8 +9,8 @@ public class Book
 {
 
    public Guid Id { get; private set; }
-   public String Title { get; set; } 
-   public String Description { get; set; }
+   public string Title { get; set; } 
+   public string Description { get; set; }
    public Genre Genre { get; set; }
    public Status Status { get; internal set; } = Status.Available;
    private HashSet<Transaction>? _transactionHistory  = null;
@@ -23,12 +23,13 @@ public class Book
 
    private Book(){}
 
-   public static Book Create(String title, Genre genre, Guid authorId)
+   public static Book Create(string title,string description, Genre genre, Guid authorId)
    {
        return new Book
        {
            Id = Guid.NewGuid(),
            Title = title,
+           Description = description,
            Genre = genre,
            AuthorId = authorId, 
        };
@@ -37,14 +38,18 @@ public class Book
    public void AddTransaction(Transaction transaction)
    {
        _transactionHistory ??= new HashSet<Transaction>();
-
        _transactionHistory.Add(transaction);
    }
+
+   public void RemoveTransaction(Transaction transaction)
+       => _transactionHistory?.Remove(transaction);
 
    public void AddReview(Review review)
    {
        _bookReviews ??= new List<Review>();
-
        _bookReviews.Add(review);
    }
+
+   public void RemoveReview(Review review)
+       => _bookReviews?.Remove(review);
 }
