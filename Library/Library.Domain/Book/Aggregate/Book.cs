@@ -13,14 +13,12 @@ public class Book
    public string Description { get; set; }
    public Genre Genre { get; set; }
    public Status Status { get; internal set; } = Status.Available;
-   private HashSet<Transaction>? _transactionHistory  = null;
-   private List<Review>? _bookReviews = null;
     
    //Navigation Properties & Foreign Keys  
    public Guid AuthorId { get; private set; }
-   public IReadOnlyList<Transaction>? BookTransactions => _transactionHistory.ToList(); 
-   public IReadOnlyList<Review>? BookReviews => _bookReviews.ToList(); 
-
+   public HashSet<Transaction> BookTransactions { get; private set; } = new HashSet<Transaction>();
+   public List<Review>? BookReviews { get; private set; } = new List<Review>() ;
+   
    private Book(){}
 
    public static Book Create(string title,string description, Genre genre, Guid authorId)
@@ -36,20 +34,14 @@ public class Book
    }
 
    public void AddTransaction(Transaction transaction)
-   {
-       _transactionHistory ??= new HashSet<Transaction>();
-       _transactionHistory.Add(transaction);
-   }
+       => BookTransactions.Add(transaction);
 
    public void RemoveTransaction(Transaction transaction)
-       => _transactionHistory?.Remove(transaction);
+       => BookTransactions?.Remove(transaction);
 
    public void AddReview(Review review)
-   {
-       _bookReviews ??= new List<Review>();
-       _bookReviews.Add(review);
-   }
+       => BookReviews?.Add(review);
 
    public void RemoveReview(Review review)
-       => _bookReviews?.Remove(review);
+       => BookReviews?.Remove(review);
 }
