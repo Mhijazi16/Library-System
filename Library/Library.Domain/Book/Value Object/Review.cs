@@ -3,6 +3,7 @@ using Library.Domain.Patrion.Aggregate;
 
 public record Review
 {
+    public Guid Id { get; init; }
     public Guid PatrionId { get; init; }
     public string Descriptoin { get; init; }
     public decimal Rating { get; init; }
@@ -14,6 +15,7 @@ public record Review
             throw new ArgumentException("Rating Out Of Bound!!");
         }
 
+        Id = Guid.NewGuid();
         PatrionId = patrionId;
         this.Descriptoin = Descriptoin;
         this.Rating = Rating;
