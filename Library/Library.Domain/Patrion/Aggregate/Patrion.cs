@@ -12,13 +12,10 @@ public class Patrion
     public string FirstName{ get; private set; }
     public string LastName{ get; private set; }
     public string Email { get; private set; }
-    private HashSet<BorrowedBook>? _books = null;
-    private HashSet<Transaction>? _transactionHistory = null;
     
     //Navigation Properties & Foreign Keys
-    public IReadOnlyList<BorrowedBook>? BookSet => _books.ToList();
-    public IReadOnlyList<Transaction>? PatrionTransactions => _transactionHistory.ToList();
-
+    public HashSet<BorrowedBook>? BookSet { get; private set; } = new HashSet<BorrowedBook>();
+    public HashSet<Transaction>? TransactionHistory { get; private set; } = new HashSet<Transaction>();
 
     private Patrion(){}
 
@@ -31,13 +28,12 @@ public class Patrion
     }
 
     public void AddBook(Book book)
-    {
-        _books ??= new HashSet<BorrowedBook>();
-        _books.Add(new BorrowedBook(book));
-    }
+        => BookSet?.Add(new BorrowedBook(book));
+    public void RemoveBook(Book book)
+        => BookSet?.Remove(new BorrowedBook(book));
+    
     public void AddTransaction(Transaction transaction)
-    {
-        _transactionHistory ??= new HashSet<Transaction>();
-        _transactionHistory.Add(transaction);
-    }   
+        => TransactionHistory?.Add(transaction);
+    public void RemoveTransaction(Transaction transaction)
+        => TransactionHistory?.Remove(transaction);
 }

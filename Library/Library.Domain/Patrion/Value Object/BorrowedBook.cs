@@ -13,7 +13,7 @@ public record BorrowedBook
 
     public BorrowedBook(Book.Aggregate.Book book)
     {
-        Id = book.Id;
+        Id = Guid.NewGuid();
         Title = book.Title;
         Description = book.Description;
         Genre = book.Genre.ToString();

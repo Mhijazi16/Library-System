@@ -18,10 +18,10 @@ public class Book
    public Guid AuthorId { get; private set; }
    public HashSet<Transaction> BookTransactions { get; private set; } = new HashSet<Transaction>();
    public List<Review>? BookReviews { get; private set; } = new List<Review>() ;
-   
-   private Book(){}
 
-   public static Book Create(string title,string description, Genre genre, Guid authorId)
+   public Book(){}
+
+   public static Book Create(string title,string description, Genre genre)
    {
        return new Book
        {
@@ -29,10 +29,12 @@ public class Book
            Title = title,
            Description = description,
            Genre = genre,
-           AuthorId = authorId, 
        };
    }
 
+   public void AddAuthor(Guid authorId)
+       => AuthorId = authorId; 
+   
    public void AddTransaction(Transaction transaction)
        => BookTransactions.Add(transaction);
 
