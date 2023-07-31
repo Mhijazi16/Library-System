@@ -71,7 +71,7 @@ namespace Library.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("Id", "BookId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
@@ -135,14 +135,11 @@ namespace Library.Infrastructure.Migrations
                 {
                     b.OwnsMany("Library.Domain.Book.Value_Object.Review", "BookReviews", b1 =>
                         {
-                            b1.Property<Guid>("BookId")
+                            b1.Property<Guid>("Id")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+                            b1.Property<Guid>("BookId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Descriptoin")
                                 .IsRequired()
@@ -156,9 +153,11 @@ namespace Library.Infrastructure.Migrations
                                 .HasPrecision(3, 1)
                                 .HasColumnType("decimal(3,1)");
 
-                            b1.HasKey("BookId", "Id");
+                            b1.HasKey("Id");
 
-                            b1.ToTable("Review");
+                            b1.HasIndex("BookId");
+
+                            b1.ToTable("Review", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BookId");
@@ -169,14 +168,14 @@ namespace Library.Infrastructure.Migrations
 
             modelBuilder.Entity("Library.Domain.Common.Transaction.Aggregate.Transaction", b =>
                 {
-                    b.HasOne("Library.Domain.Book.Aggregate.Book", null)
+                    b.HasOne("Library.Domain.Book.Aggregate.Book", "Book")
                         .WithMany("BookTransactions")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library.Domain.Patrion.Aggregate.Patrion", null)
-                        .WithMany("PatrionTransactions")
+                    b.HasOne("Library.Domain.Patrion.Aggregate.Patrion", "Patrion")
+                        .WithMany("TransactionHistory")
                         .HasForeignKey("PatrionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -184,9 +183,6 @@ namespace Library.Infrastructure.Migrations
                     b.OwnsOne("Library.Domain.Book.Value_Object.BorrowSpan", "Span", b1 =>
                         {
                             b1.Property<Guid>("TransactionId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<Guid>("TransactionBookId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<DateTime>("DueDate")
@@ -197,13 +193,17 @@ namespace Library.Infrastructure.Migrations
                                 .HasColumnType("datetime2")
                                 .HasColumnName("Issue Date");
 
-                            b1.HasKey("TransactionId", "TransactionBookId");
+                            b1.HasKey("TransactionId");
 
                             b1.ToTable("Transactions");
 
                             b1.WithOwner()
-                                .HasForeignKey("TransactionId", "TransactionBookId");
+                                .HasForeignKey("TransactionId");
                         });
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Patrion");
 
                     b.Navigation("Span");
                 });
@@ -231,11 +231,7 @@ namespace Library.Infrastructure.Migrations
                 {
                     b.OwnsMany("Library.Domain.Patrion.Value_Object.BorrowedBook", "BookSet", b1 =>
                         {
-                            b1.Property<Guid>("PatrionId")
-                                .HasColumnType("uniqueidentifier");
-
                             b1.Property<Guid>("Id")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Description")
@@ -247,6 +243,9 @@ namespace Library.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
+                            b1.Property<Guid>("PatrionId")
+                                .HasColumnType("uniqueidentifier");
+
                             b1.Property<string>("Status")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
@@ -256,9 +255,11 @@ namespace Library.Infrastructure.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)");
 
-                            b1.HasKey("PatrionId", "Id");
+                            b1.HasKey("Id");
 
-                            b1.ToTable("BorrowedBook");
+                            b1.HasIndex("PatrionId");
+
+                            b1.ToTable("BorrowedBook", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("PatrionId");
@@ -274,7 +275,7 @@ namespace Library.Infrastructure.Migrations
 
             modelBuilder.Entity("Library.Domain.Patrion.Aggregate.Patrion", b =>
                 {
-                    b.Navigation("PatrionTransactions");
+                    b.Navigation("TransactionHistory");
                 });
 #pragma warning restore 612, 618
         }
