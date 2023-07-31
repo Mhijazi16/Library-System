@@ -18,7 +18,7 @@ public class BookConfigurations : IEntityTypeConfiguration<Book>
     private void ConfigureTransactions(EntityTypeBuilder<Book> builder)
     {
         builder.HasMany(book => book.BookTransactions)
-            .WithOne()
+            .WithOne(tr => tr.Book)
             .HasForeignKey(tr => tr.BookId);
     }
 
@@ -26,6 +26,8 @@ public class BookConfigurations : IEntityTypeConfiguration<Book>
     {
         builder.OwnsMany(book => book.BookReviews, sp =>
         {
+            sp.ToTable("Review").HasKey(a => a.Id);
+            sp.Property(a => a.Id).ValueGeneratedNever();
             sp.Property(a => a.Rating).HasPrecision(3, 1);
             sp.Property(a => a.Descriptoin).HasMaxLength(500);
         });

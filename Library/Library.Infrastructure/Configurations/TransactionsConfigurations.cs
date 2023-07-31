@@ -8,13 +8,11 @@ public class TransactionsConfigurations : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
-        builder.ToTable("Transactions")
-            .HasKey(tr => new { tr.Id, tr.BookId , tr.PatrionId});
+        builder.ToTable("Transactions").HasKey(tr => tr.Id);
         
-        builder.Property(tr => tr.Id)
-            .ValueGeneratedNever();
-        builder.Property(tr => tr.Status)
-            .HasConversion<string>();
+        builder.Property(tr => tr.Id).ValueGeneratedNever();
+        
+        builder.Property(tr => tr.Status).HasConversion<string>();
         
         builder.OwnsOne(tr => tr.Span, sp =>
         {

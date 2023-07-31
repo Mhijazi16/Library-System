@@ -15,14 +15,17 @@ public class PatrionConfigurations : IEntityTypeConfiguration<Patrion>
 
     private void ConfigureTransactions(EntityTypeBuilder<Patrion> builder)
     {
-        builder.HasMany(patrion => patrion.PatrionTransactions)
-            .WithOne().HasForeignKey(tr => tr.PatrionId);
+        builder.HasMany(patrion => patrion.TransactionHistory)
+            .WithOne(tr => tr.Patrion)
+            .HasForeignKey(tr => tr.PatrionId);
     }
 
     private void ConfigureBorrowedBooks(EntityTypeBuilder<Patrion> builder)
     {
         builder.OwnsMany(patrion => patrion.BookSet, sp =>
         {
+            sp.ToTable("BorrowedBook").HasKey(a => a.Id);
+            sp.Property(a => a.Id).ValueGeneratedNever();
             sp.Property(a => a.Description).HasMaxLength(500);
             sp.Property(a => a.Title).HasMaxLength(50);
         });
