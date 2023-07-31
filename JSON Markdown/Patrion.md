@@ -4,7 +4,8 @@
 ```https://Library/Patrions/{id}```
 ```json 
 "Patrion" : {
-    "Name" : "Mohammed", 
+    "FirstName" : "Moahmmed",
+    "LastName" : "Hijazi", 
     "Email" : "example@gmail.com", 
 
     "Books" : [
@@ -16,9 +17,15 @@
         }, 
     ],
 
-    "BorrowHistory" : [
+    "TransactionHistory" : [
         "Transaction" : {
+
+            "TransactionId" : "xxx-xxx-xxx-xxx",
             "BookID" : "xxx-xxx-xxx-xxx", 
+            "PatrionID" : "xxx-xxx-xxx-xxx",
+            "Type" : "Borrow", 
+            "Status" : "Success",
+
             "BorrowSpan" : {
                 "IssueDate" : "2023-2-2",
                 "DueDate" : "2023-3-3",
@@ -48,22 +55,34 @@
 ```https://Library/Patrions/{id}/BorrowHistory```
 ```json 
 "TransactionsHistory" : [
-        "TransactionOne" : {
-            "BookID" : "xxx-xxx-xxx-xxx", 
-            "BorrowSpan" : {
-                "IssueDate" : "2023-2-2",
-                "DueDate" : "2023-3-3",
-            },
-        },
 
-        "TransactionTwo" : {
+        "Transaction" : {
+
+            "TransactionId" : "xxx-xxx-xxx-xxx",
             "BookID" : "xxx-xxx-xxx-xxx", 
+            "PatrionID" : "xxx-xxx-xxx-xxx",
+            "Type" : "Borrow", 
+            "Status" : "Success",
+
             "BorrowSpan" : {
                 "IssueDate" : "2023-2-2",
                 "DueDate" : "2023-3-3",
             },
-        },
- 
+        }, 
+
+        "Transaction" : {
+
+            "TransactionId" : "xxx-xxx-xxx-xxx",
+            "BookID" : "xxx-xxx-xxx-xxx", 
+            "PatrionID" : "xxx-xxx-xxx-xxx",
+            "Type" : "Borrow", 
+            "Status" : "Failure",
+
+            "BorrowSpan" : {
+                "IssueDate" : "2023-2-2",
+                "DueDate" : "2023-3-3",
+            },
+        }
     ]
 ```
 
@@ -73,13 +92,15 @@
 "TransactionsHistory" : [
         "TransactionOne" : {
             "BookID" : "xxx-xxx-xxx-xxx", 
+            "PatrionID" : "xxx-xxx-xxx-xxx",
+            "Type" : "Borrow", 
+            "State" : "Succeeded",
+ 
             "BorrowSpan" : {
                 "IssueDate" : "2023-2-2",
                 "DueDate" : "2023-3-3",
             },
-            "Type" : "Borrow", 
-            "State" : "Succeeded",
-        },
+       },
     ]
 ```
 

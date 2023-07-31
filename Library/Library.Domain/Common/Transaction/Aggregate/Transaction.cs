@@ -2,22 +2,32 @@ namespace Library.Domain.Common.Transaction.Aggregate;
 
 using Library.Domain.Book.Value_Object;
 using Value_Object;
+using Book.Aggregate;   
+using Patrion.Aggregate;
 
 public record Transaction 
 {
     public Guid Id { get; init; }
     public BorrowSpan? Span { get; init; } = null; 
-    public TransactionType Type { get; init; }
-    public TransactionStatus Status { get; init; }
+    public Action Type { get; init; }
+    public State Status { get; init; }
     
+    //Navigation Properties
+    public Guid PatrionId { get; init; }
+    public Patrion Patrion { get; init; }
+    public Guid BookId { get; init; }
+    public Book Book { get; init; }
+     
     private Transaction(){}
-    public Transaction(TransactionType type,TransactionStatus status)
+    public Transaction(Action type,State status,Guid patrionId,Guid bookId)
     {
         Id = Guid.NewGuid();
+        PatrionId = patrionId;
+        BookId = bookId;
         Type = type;
         Status = status;
 
-        if (type is TransactionType.Borrow && status is TransactionStatus.Success)
+        if (type is Action.Borrow && status is State.Success)
         {
             Span = new BorrowSpan
             {

@@ -1,7 +1,7 @@
 namespace Library.Domain.Common.Transaction.Value_Object;
 
-public enum TransactionType
+public enum State
 {
-    Borrow,
-    Return,
+    Success,
+    Failure,
 }
