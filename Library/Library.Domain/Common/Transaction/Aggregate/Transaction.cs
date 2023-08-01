@@ -10,7 +10,6 @@ public record Transaction
     public Guid Id { get; init; }
     public BorrowSpan? Span { get; init; } = null; 
     public Action Type { get; init; }
-    public State Status { get; init; }
     
     //Navigation Properties
     public Guid PatrionId { get; init; }
@@ -19,15 +18,14 @@ public record Transaction
     public Book Book { get; init; }
      
     private Transaction(){}
-    public Transaction(Action type,State status,Guid patrionId,Guid bookId)
+    public Transaction(Action type,Guid patrionId,Guid bookId)
     {
         Id = Guid.NewGuid();
         PatrionId = patrionId;
         BookId = bookId;
         Type = type;
-        Status = status;
 
-        if (type is Action.Borrow && status is State.Success)
+        if (type is Action.Borrow) 
         {
             Span = new BorrowSpan
             {

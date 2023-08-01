@@ -6,8 +6,8 @@ namespace Library.Infrastructure.Services;
 
 public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    private LibraryDbContext _context;
-    private DbSet<TEntity> _entity;
+    protected LibraryDbContext _context;
+    protected DbSet<TEntity> _entity;
 
     public GenericRepository(LibraryDbContext context)
     {
@@ -47,18 +47,8 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
         }
     }
 
-    public async Task<bool> SaveAsync()
-    {
-        try
-        {
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    public async Task SaveAsync()
+        => await _context.SaveChangesAsync();
 
     public async Task<bool> DeleteEntityById(Guid id)
     {

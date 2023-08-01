@@ -12,8 +12,6 @@ public class TransactionsConfigurations : IEntityTypeConfiguration<Transaction>
         
         builder.Property(tr => tr.Id).ValueGeneratedNever();
         
-        builder.Property(tr => tr.Status).HasConversion<string>();
-        
         builder.OwnsOne(tr => tr.Span, sp =>
         {
             sp.Property(a => a.DueDate).HasColumnName("Due Date");
