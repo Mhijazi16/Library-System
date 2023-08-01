@@ -55,4 +55,19 @@ public class BorrowService
 
         return appeal;
     }
+    
+    public async Task<Appeal> ReturnAsync(Appeal appeal)
+    {
+        var book = await _bookRepository.GetEntityByIdAsync(appeal.BookId);
+        if (book?.Status != Status.Borrowed)
+        {
+            throw new ArgumentException($"Book With Id:{book.Id} Can not be returned since it's not Borrowed");
+        }
+        
+        book.ChangeStatus(Status.Pending);
+        Patrion.RemoveBook(book);
+         
+        appeal = new Appeal(Patrion.Id, appeal.BookId, AppealType.Return);
+        return appeal;
+    }
 }
