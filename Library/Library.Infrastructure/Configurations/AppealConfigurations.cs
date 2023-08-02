@@ -15,6 +15,9 @@ public class AppealConfigurations : IEntityTypeConfiguration<Appeal>
         builder.HasOne(appeal => appeal.Book)
             .WithOne().HasForeignKey<Appeal>(appeal => appeal.BookId);
 
+        builder.Property(appeal => appeal.Type)
+            .HasConversion<string>();
+
         builder.HasOne(appeal => appeal.Patrion)
             .WithOne().HasForeignKey<Appeal>(appeal => appeal.PatrionId);
     }

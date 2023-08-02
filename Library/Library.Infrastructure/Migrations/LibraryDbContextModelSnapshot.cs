@@ -64,10 +64,6 @@ namespace Library.Infrastructure.Migrations
                     b.Property<Guid>("PatrionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -91,6 +87,10 @@ namespace Library.Infrastructure.Migrations
 
                     b.Property<Guid>("PatrionId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -8,18 +8,19 @@ namespace Library.Application.Services;
 
 public class BorrowService
 {
+    private readonly IAppealRepository _appealRepository;
     private readonly IRepository<Book> _bookRepository;
-    private readonly IRepository<Appeal> _appealRepository;
     private Patrion Patrion { get; set; }
 
-    public BorrowService
-        (IRepository<Book> bookRepo,IRepository<Appeal> appealRepo,Patrion patrion)
+    public BorrowService(IAppealRepository appealRepository,IRepository<Book> bookRepository)
     {
-        Patrion = patrion;
-        _bookRepository = bookRepo;
-        _appealRepository = appealRepo;
+        _appealRepository = appealRepository;
+        _bookRepository = bookRepository;
     }
- 
+
+    public void ManagePatrion(Patrion patrion)
+        => Patrion = patrion; 
+
     public async Task<Appeal> BorrowAsync(Guid bookId)
     {
         var book = await _bookRepository.GetEntityByIdAsync(bookId);
@@ -33,8 +34,7 @@ public class BorrowService
         var appeal = new Appeal(Patrion.Id, bookId,AppealType.Borrow);
 
         await _appealRepository.AddAsync(appeal);
-        _bookRepository.UpdateAsync(book);
-        await _bookRepository.SaveAsync();
+        await _appealRepository.SaveAsync();
 
         return appeal;
     }
@@ -45,20 +45,20 @@ public class BorrowService
         {
             throw new ArgumentException($"Book With Id:{book.Id} is Already Borrowed");
         }
+        
         book.ChangeStatus(Status.Pending);
 
         var appeal = new Appeal(Patrion.Id, book.Id,AppealType.Borrow);
         
         await _appealRepository.AddAsync(appeal);
-        _bookRepository.UpdateAsync(book);
-        await _bookRepository.SaveAsync();
+        await _appealRepository.SaveAsync();
 
         return appeal;
     }
     
     public async Task<Appeal> ReturnAsync(Appeal appeal)
     {
-        var book = await _bookRepository.GetEntityByIdAsync(appeal.BookId);
+        var book = appeal.Book; 
         if (book?.Status != Status.Borrowed)
         {
             throw new ArgumentException($"Book With Id:{book.Id} Can not be returned since it's not Borrowed");
@@ -68,6 +68,10 @@ public class BorrowService
         Patrion.RemoveBook(book);
          
         appeal = new Appeal(Patrion.Id, appeal.BookId, AppealType.Return);
+
+        await _appealRepository.AddAsync(appeal);
+        await _appealRepository.SaveAsync();
+        
         return appeal;
     }
 }
