@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Infrastructure.Services;
 
-public class AppealRepository : GenericRepository<Appeal>
+public class AppealRepository : GenericRepository<Appeal>, IAppealRepository
 {
     public AppealRepository(LibraryDbContext context) : base(context)
     {
