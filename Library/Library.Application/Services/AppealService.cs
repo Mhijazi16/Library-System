@@ -81,5 +81,27 @@ public class AppealService
       _appealRepository.DeleteEntity(appeal);
       await _appealRepository.SaveAsync();
    }
+   
+   public async Task<Transaction> RejectBorrowAppeal(Guid Id)
+   {
+      var appeal = await _appealRepository.GetWholeAppeal(Id);
+      var book = appeal?.Book;
+      var patrion = appeal?.Patrion;
+
+      var transaction = new Transaction
+         (Action.Borrow, patrion.Id, book.Id, State.Failure);
+      
+      book.ChangeStatus(Status.Available);
+      book.AddTransaction(transaction);
+      patrion.AddTransaction(transaction);
+
+      _appealRepository.UpdateAsync(appeal);
+      await _transactionsRepository.AddAsync(transaction);
+      await _transactionsRepository.SaveAsync();
+      _appealRepository.DeleteEntity(appeal);
+      await _appealRepository.SaveAsync();
+      
+      return transaction;
+   }
 
 }
