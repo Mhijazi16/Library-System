@@ -46,4 +46,7 @@ public class Book
 
    public void RemoveReview(Review review)
        => BookReviews?.Remove(review);
+
+   public void ChangeStatus(Status status)
+       => Status = status;
 }
