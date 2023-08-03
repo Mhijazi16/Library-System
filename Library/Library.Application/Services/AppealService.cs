@@ -18,4 +18,49 @@ public class AppealService
       _appealRepository = appealRepository;
       _transactionsRepository = transactionRepository;
    }
+
+   public async Task<Transaction> AcceptBorrowAppeal(Appeal appeal)
+   {
+      var book = appeal.Book;
+      var patrion = appeal.Patrion;
+      var transaction = new Transaction
+         (Action.Borrow, appeal.PatrionId, appeal.BookId,State.Success);
+      
+      book.ChangeStatus(Status.Borrowed);
+      patrion.AddBook(book);
+      book.AddTransaction(transaction);
+      patrion.AddTransaction(transaction);
+
+      _appealRepository.UpdateAsync(appeal);
+      await _transactionsRepository.AddAsync(transaction);
+      await _appealRepository.SaveAsync();
+      _appealRepository.DeleteEntity(appeal);
+      await _appealRepository.SaveAsync();
+
+      return transaction;
+   }
+
+   public async Task<Transaction> AcceptBorrowAppeal(Guid Id)
+   {
+      var appeal = await _appealRepository.GetWholeAppeal(Id);
+      var book = appeal?.Book;
+      var patrion = appeal?.Patrion;
+      var transaction = new Transaction
+         (Action.Borrow, patrion.Id, book.Id,State.Success);
+      
+      book.ChangeStatus(Status.Borrowed);
+      patrion.AddBook(book);
+      book.AddTransaction(transaction);
+      patrion.AddTransaction(transaction);
+
+      _appealRepository.UpdateAsync(appeal);
+      await _transactionsRepository.AddAsync(transaction);
+      await _appealRepository.SaveAsync();
+      _appealRepository.DeleteEntity(appeal);
+      await _appealRepository.SaveAsync();
+      
+
+      return transaction;
+   }
+   
 }
