@@ -17,14 +17,6 @@ public class LibraryDbContext : DbContext
       
    }
 
-   public LibraryDbContext()
-   {
-   }
-
-   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-      => optionsBuilder.UseSqlServer(
-         "Server=localhost; Database=Library; User=sa; Password=Hijazi123; TrustServerCertificate=True"); 
-
    protected override void OnModelCreating(ModelBuilder modelBuilder)
    {
       modelBuilder.ApplyConfigurationsFromAssembly

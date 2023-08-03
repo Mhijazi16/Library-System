@@ -1,4 +1,3 @@
-using Action = Library.Domain.Common.Transaction.Value_Object.Action;
 
 namespace Library.Domain.LibrarianPanel.Value_Object;
 using Book.Aggregate;

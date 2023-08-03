@@ -64,7 +64,7 @@ namespace Library.Infrastructure.Migrations
                     b.Property<Guid>("PatrionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -88,7 +88,7 @@ namespace Library.Infrastructure.Migrations
                     b.Property<Guid>("PatrionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("TransactionType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

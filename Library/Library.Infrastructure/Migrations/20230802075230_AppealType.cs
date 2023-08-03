@@ -15,7 +15,7 @@ namespace Library.Infrastructure.Migrations
                 table: "Transactions");
 
             migrationBuilder.AddColumn<string>(
-                name: "Type",
+                name: "TransactionType",
                 table: "Appeals",
                 type: "nvarchar(max)",
                 nullable: false,
@@ -26,7 +26,7 @@ namespace Library.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Type",
+                name: "TransactionType",
                 table: "Appeals");
 
             migrationBuilder.AddColumn<string>(
