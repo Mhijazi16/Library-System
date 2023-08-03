@@ -62,5 +62,24 @@ public class AppealService
 
       return transaction;
    }
+
+   public async Task AcceptReturnAppeal(Appeal appeal)
+   {
+      appeal.Book.ChangeStatus(Status.Available);
+      await _appealRepository.SaveAsync();
+      _appealRepository.DeleteEntity(appeal);
+      await _appealRepository.SaveAsync();
+   }
    
+   public async Task AcceptReturnAppeal(Guid Id)
+   {
+      var appeal = await _appealRepository.GetEntityByIdAsync(Id);
+      
+      appeal?.Book.ChangeStatus(Status.Available);
+      await _appealRepository.SaveAsync();
+      
+      _appealRepository.DeleteEntity(appeal);
+      await _appealRepository.SaveAsync();
+   }
+
 }
